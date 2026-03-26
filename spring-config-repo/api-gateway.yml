@@ -29,6 +29,31 @@ spring:
           uri: 'lb://admin-service'
           predicates:
             - Path=/api/admin/**
+        # Documentation Routes
+        - id: identity-docs
+          uri: 'lb://identity-service'
+          predicates:
+            - Path=/v3/api-docs/identity
+          filters:
+            - RewritePath=/v3/api-docs/identity, /v3/api-docs
+        - id: catalog-docs
+          uri: 'lb://catalog-service'
+          predicates:
+            - Path=/v3/api-docs/catalog
+          filters:
+            - RewritePath=/v3/api-docs/catalog, /v3/api-docs
+        - id: orders-docs
+          uri: 'lb://order-service'
+          predicates:
+            - Path=/v3/api-docs/orders
+          filters:
+            - RewritePath=/v3/api-docs/orders, /v3/api-docs
+        - id: admin-docs
+          uri: 'lb://admin-service'
+          predicates:
+            - Path=/v3/api-docs/admin
+          filters:
+            - RewritePath=/v3/api-docs/admin, /v3/api-docs
 eureka:
   client:
     register-with-eureka: true
@@ -41,6 +66,15 @@ springdoc:
     path: /v3/api-docs
   swagger-ui:
     path: /swagger-ui.html
+    urls:
+      - name: Identity Service
+        url: /v3/api-docs/identity
+      - name: Catalog Service
+        url: /v3/api-docs/catalog
+      - name: Order Service
+        url: /v3/api-docs/orders
+      - name: Admin Service
+        url: /v3/api-docs/admin
 management:
   endpoints:
     web:
