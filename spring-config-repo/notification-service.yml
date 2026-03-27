@@ -1,0 +1,28 @@
+server:
+  port: 8085
+spring:
+  rabbitmq:
+    host: ${RABBITMQ_HOST:localhost}
+    port: ${RABBITMQ_PORT:5672}
+    username: ${RABBITMQ_USER:guest}
+    password: ${RABBITMQ_PASSWORD:guest}
+amqp:
+  queue:
+    notifications: pharmacy.notifications.email
+  exchange:
+    orders: pharmacy.orders
+logging:
+  level:
+    com.onlinepharmacy.notification: DEBUG
+    org.springframework.amqp: DEBUG
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+  tracing:
+    sampling:
+      probability: 1.0
+  zipkin:
+    tracing:
+      endpoint: "${MANAGEMENT_ZIPKIN_TRACING_ENDPOINT:http://localhost:9411/api/v2/spans}"
