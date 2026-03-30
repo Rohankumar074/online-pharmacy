@@ -1,0 +1,93 @@
+server:
+  port: 8080
+spring:
+  main:
+    web-application-type: reactive
+  codec:
+    max-in-memory-size: 10MB
+  servlet:
+    multipart:
+      enabled: true
+      max-file-size: 10MB
+      max-request-size: 10MB
+  cloud:
+    gateway:
+      routes:
+        - id: identity
+          uri: 'lb://identity-service'
+          predicates:
+            - Path=/api/auth/**
+        - id: catalog
+          uri: 'lb://catalog-service'
+          predicates:
+            - Path=/api/catalog/**
+        - id: orders
+          uri: 'lb://order-service'
+          predicates:
+            - Path=/api/orders/**
+        - id: admin
+          uri: 'lb://admin-service'
+          predicates:
+            - Path=/api/admin/**
+        # Documentation Routes
+        - id: identity-docs
+          uri: 'lb://identity-service'
+          predicates:
+            - Path=/v3/api-docs/identity
+          filters:
+            - RewritePath=/v3/api-docs/identity, /v3/api-docs
+        - id: catalog-docs
+          uri: 'lb://catalog-service'
+          predicates:
+            - Path=/v3/api-docs/catalog
+          filters:
+            - RewritePath=/v3/api-docs/catalog, /v3/api-docs
+        - id: orders-docs
+          uri: 'lb://order-service'
+          predicates:
+            - Path=/v3/api-docs/orders
+          filters:
+            - RewritePath=/v3/api-docs/orders, /v3/api-docs
+        - id: admin-docs
+          uri: 'lb://admin-service'
+          predicates:
+            - Path=/v3/api-docs/admin
+          filters:
+            - RewritePath=/v3/api-docs/admin, /v3/api-docs
+eureka:
+  client:
+    register-with-eureka: true
+    fetch-registry: true
+  instance:
+    prefer-ip-address: true
+springdoc:
+  api-docs:
+    enabled: true
+    path: /v3/api-docs
+  swagger-ui:
+    path: /swagger-ui.html
+    urls:
+      - name: Identity Service
+        url: /v3/api-docs/identity
+      - name: Catalog Service
+        url: /v3/api-docs/catalog
+      - name: Order Service
+        url: /v3/api-docs/orders
+      - name: Admin Service
+        url: /v3/api-docs/admin
+management:
+  endpoints:
+    web:
+      exposure:
+        include: '*'
+  endpoint:
+    health:
+      show-details: always
+    gateway:
+      enabled: true
+  tracing:
+    sampling:
+      probability: 1
+  zipkin:
+    tracing:
+      endpoint: '${MANAGEMENT_ZIPKIN_TRACING_ENDPOINT:http://localhost:9411/api/v2/spans}'
