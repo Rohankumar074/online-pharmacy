@@ -1,0 +1,7 @@
+com\onlinepharmacy\notification\dto\UserDto.class
+com\onlinepharmacy\notification\dto\event\OrderStatusChangedEvent.class
+com\onlinepharmacy\notification\NotificationServiceApplication.class
+com\onlinepharmacy\notification\amqp\OrderEventListener.class
+com\onlinepharmacy\notification\service\NotificationService.class
+com\onlinepharmacy\notification\amqp\RabbitConfig.class
+com\onlinepharmacy\notification\client\UserClient.class
