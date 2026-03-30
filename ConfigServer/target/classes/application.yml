@@ -1,0 +1,28 @@
+server:
+  port: 8888
+
+spring:
+  application:
+    name: config-server
+
+  profiles:
+    active: ${CONFIG_PROFILE:git}
+
+  cloud:
+    config:
+      server:
+        git:
+          uri: https://github.com/Rohankumar074/online-pharmacy.git
+          default-label: main
+          search-paths: spring-config-repo
+        native:
+          search-locations: file:///config-repo
+
+eureka:
+  client:
+    register-with-eureka: true
+    fetch-registry: true
+    service-url:
+      defaultZone: ${EUREKA_URL:http://localhost:8761/eureka/}
+  instance:
+    prefer-ip-address: true
