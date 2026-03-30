@@ -1,0 +1,3 @@
+com\onlinepharmacy\identity\controller\AuthControllerTest.class
+com\onlinepharmacy\identity\security\JwtTokenServiceTest.class
+com\onlinepharmacy\identity\service\AuthServiceTest.class

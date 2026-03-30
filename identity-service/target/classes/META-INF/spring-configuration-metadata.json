@@ -1,0 +1,25 @@
+{
+  "groups": [
+    {
+      "name": "jwt",
+      "type": "com.onlinepharmacy.identity.config.JwtProperties",
+      "sourceType": "com.onlinepharmacy.identity.config.JwtProperties"
+    }
+  ],
+  "properties": [
+    {
+      "name": "jwt.expiration-seconds",
+      "type": "java.lang.Long",
+      "description": "Token validity in seconds.",
+      "sourceType": "com.onlinepharmacy.identity.config.JwtProperties",
+      "defaultValue": 86400
+    },
+    {
+      "name": "jwt.secret",
+      "type": "java.lang.String",
+      "description": "HMAC secret used to sign and verify JWT tokens. Provide via env var `JWT_SECRET`.",
+      "sourceType": "com.onlinepharmacy.identity.config.JwtProperties"
+    }
+  ],
+  "hints": []
+}
