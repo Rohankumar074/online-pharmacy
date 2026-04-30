@@ -36,6 +36,28 @@ spring:
           uri: 'lb://order-service'
           predicates:
             - Path=/api/orders/**
+        # ─── Admin: Order list & status update (routed to order-service internal) ───
+        # GET  /api/admin/orders      → order-service /api/internal/admin/orders
+        # PUT  /api/admin/orders/{id}/status → order-service /api/internal/admin/orders/{id}/status
+        # Security: ROLE_ADMIN enforced by JwtValidationWebFilter (line 77 of that file)
+        - id: admin-orders
+          uri: 'lb://order-service'
+          predicates:
+            - Path=/api/admin/orders/**
+          filters:
+            - RewritePath=/api/admin/(?<segment>.*), /api/internal/admin/${segment}
+        # ─── Admin: Category CRUD (routed to catalog-service internal) ───────────────
+        # GET  /api/admin/categories  → catalog-service /api/internal/admin/categories
+        # POST /api/admin/categories  → catalog-service /api/internal/admin/categories
+        # PUT  /api/admin/categories/{id} → catalog-service /api/internal/admin/categories/{id}
+        # Security: ROLE_ADMIN enforced by JwtValidationWebFilter
+        - id: admin-categories
+          uri: 'lb://catalog-service'
+          predicates:
+            - Path=/api/admin/categories/**
+          filters:
+            - RewritePath=/api/admin/(?<segment>.*), /api/internal/admin/${segment}
+        # ─── Admin: General admin-service route (catch-all for /api/admin/**) ────────
         - id: admin
           uri: 'lb://admin-service'
           predicates:
